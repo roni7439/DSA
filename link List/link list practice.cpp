@@ -1,0 +1,138 @@
+#include<stdio.h>
+#include<stdlib.h>
+struct list
+{
+	int data;
+	struct list *next;
+}*start=NULL;
+typedef struct list node;
+
+void create(int data)
+{
+	node *newnode,*temp;
+	newnode=(node*)malloc(sizeof(node));
+	newnode->data=data;
+	newnode->next=NULL;
+	if(start==NULL)
+	{
+		start=newnode;
+	}
+	else
+	{
+		temp=start;
+		while(temp->next != NULL)
+		{
+			temp=temp->next;
+		}
+		temp->next=newnode;
+	}
+}
+void display()
+{
+	node *dis;
+	dis=start;
+	if(dis==NULL)
+	{
+		printf("\nList Is Empty");
+	}
+	else
+	{
+		printf("\nThe List Element Are: ");
+		while(dis != NULL)
+		{
+			printf("%d ",dis->data);
+			dis=dis->next;
+		}
+	}
+}
+
+void insert_any_position(int pos)
+{
+	node *newnode,*temp;
+	newnode=(node*)malloc(sizeof(node));
+	int data;
+	printf("\nEnter The Data: ");
+	scanf("%d",&data);
+	newnode->data=data;
+	newnode->next=NULL;
+	if(pos==1)
+	{
+		newnode->next=start;
+		start=newnode;
+	}
+	else
+	{
+		temp=start;
+		for(int i=1;i<pos-1;i++)
+		{
+			temp=temp->next;
+		}
+		newnode->next=temp->next;
+		temp->next=newnode;
+	}
+	printf("\n%d Data Inserted",data);
+}
+int delete_any_position(int pos)
+{
+	node *temp,*ctemp;
+	int val;
+	if(pos==1)
+	{
+		temp=start;
+		val=temp->data;
+		start=temp->next;
+		free(temp);
+		temp=NULL;
+	}
+	else
+	{
+		temp=start;
+		for(int i=1;i<pos;i++)
+		{
+			ctemp=temp;
+			temp=temp->next;
+		}
+		ctemp->next=temp->next;
+		val=temp->data;
+		free(temp);
+		temp=NULL;		
+	}
+	return val;
+}
+
+int main()
+{
+	int choice;
+	while(1)
+	{
+		printf("\n1-->Create\n2-->DIsplay\n3-->Insert At any Position\n4-->Delete At any position\nEnter Your Choice: ");
+		scanf("%d",&choice);
+		switch(choice)
+		{
+			case 1:
+				int data;
+				printf("\nEnter The Data: ");
+				scanf("%d",&data);
+				create(data);
+				break;
+			case 2:
+			    display();
+				break;
+			case 3:
+				int pos1;
+				printf("\nEnter The Position: ");
+				scanf("%d",&pos1);
+			    insert_any_position(pos1);
+				break;
+			case 4:
+				int pos2;
+				printf("\nEnter The Position: ");
+				scanf("%d",&pos2);
+			    printf("\nDeleted Data is %d",delete_any_position(pos2));
+				break;
+			default:
+			    printf("\nWrong Choice...");		
+		}
+	}
+	return 0;
+}
