@@ -1,0 +1,120 @@
+#include<stdio.h>
+#include<stdlib.h>
+struct list
+{
+    int data;
+    struct list *next;
+}*start=NULL;
+typedef struct list node;
+
+void create(int data)
+{
+   node *newnode,*temp;
+   newnode=(node*)malloc(sizeof(node));
+   newnode->data=data;
+   newnode->next=NULL;
+   if(start==NULL)
+   {
+       start=newnode;
+       start->next=start;
+   }
+   else
+   {
+       temp=start;
+       while(temp->next != start)
+       {
+           temp=temp->next;
+       }
+       temp->next=newnode;
+       newnode->next=start;
+   }
+}
+int delete(int pos)
+{
+    int value;
+    node *temp,*ptemp;
+    temp=start;
+    if(pos==1)
+    {
+        value=start->data;
+        if(start->next == start)
+        {
+            free(start);
+            start=NULL;
+        }
+        else
+        {
+            while(temp->next != start)
+            {
+                temp=temp->next;
+            }
+            node *del=start;
+            temp->next=start->next;
+            start =start->next;
+            free(del);
+            del=NULL;
+        }
+    return value;  
+    }
+  else
+  {
+      ptemp=NULL;
+    for(int i=1;i<pos && temp->next != start;i++)
+    {
+        ptemp=temp;
+        temp=temp->next;
+    }
+    value=temp->data;
+    ptemp->next=temp->next;
+    free(temp);
+    temp=NULL;
+    return value;
+  }
+}
+void display()
+{
+    node *dis;
+    dis=start;
+    if(start==NULL)
+    {
+        printf("\nList is empty");
+    }
+    else
+    {
+        printf("\n List elements ate: ");
+        do
+        {
+            printf("%d ",dis->data);
+            dis=dis->next;
+        }while(dis != start);
+    }
+}
+int main(){
+    int choice;
+    while(1)
+    {
+        printf("\n1-->create\n2-->delete any position \n3-->display\nEnter your choice: ");
+        scanf("%d",&choice);
+        switch(choice)
+        {
+            case 1:
+              int data;
+              printf("\nenter the data: ");
+              scanf("%d",&data);
+              create(data);
+              break;
+            case 2:
+              int pos;
+              printf("\nenter the position: ");
+              scanf("%d",&pos);
+              printf("\nDeleted item is %d",delete(pos));
+              break;
+            case 3:
+               display();
+               break;
+            default:
+               printf("\nYou are Entered wrong choice!!");
+        }
+    }
+    return 0;
+}
